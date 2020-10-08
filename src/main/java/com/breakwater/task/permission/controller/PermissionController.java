@@ -20,26 +20,26 @@ public class PermissionController {
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/users/{userId}/permissions")
-    private Mono<PermissionDTO> createUsersPermission(@PathVariable UUID userId,
-                                                      @RequestBody PermissionCreateDTO permission) {
+    public Mono<PermissionDTO> createUsersPermission(@PathVariable UUID userId,
+                                                     @RequestBody PermissionCreateDTO permission) {
         return permissionService.createUsersPermission(userId, permission);
     }
 
     @GetMapping("/users/{userId}/permissions")
-    private Flux<PermissionDTO> getUsersPermissions(@PathVariable UUID userId,
-                                                    @RequestParam(required = false) Optional<UUID> departmentId) {
+    public Flux<PermissionDTO> getUsersPermissions(@PathVariable UUID userId,
+                                                   @RequestParam(required = false) Optional<UUID> departmentId) {
         return permissionService.getPermissionsByUserIdAndDepartmentId(userId, departmentId);
     }
 
     @GetMapping("/users/{userId}/permissions/{permissionId}")
-    private Mono<PermissionDTO> getUsersPermissionByPermissionId(@PathVariable UUID userId,
-                                                                 @PathVariable UUID permissionId) {
+    public Mono<PermissionDTO> getUsersPermissionByPermissionId(@PathVariable UUID userId,
+                                                                @PathVariable UUID permissionId) {
         return permissionService.getUsersPermissionByPermissionId(userId, permissionId);
     }
 
 
     @DeleteMapping("/users/{userId}/permissions/{permissionId}")
-    private void revokeUsersPermission(@PathVariable UUID permissionId) {
-        permissionService.revokeUsersPermission(permissionId);
+    public Mono<PermissionDTO> revokeUsersPermission(@PathVariable UUID userId, @PathVariable UUID permissionId) {
+        return permissionService.revokeUsersPermission(userId, permissionId);
     }
 }

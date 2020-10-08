@@ -4,8 +4,6 @@ import com.breakwater.task.permission.enums.PermissionCode;
 import com.breakwater.task.permission.enums.PermissionStatus;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.Setter;
-import lombok.Value;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -20,8 +18,9 @@ public class Permission {
     UUID id;
 
     PermissionCode permissionCode;
+
     PermissionStatus status;
-    UUID   departmentId;
-    UUID   userId;
+    UUID departmentId;
+    UUID userId;
 
 }

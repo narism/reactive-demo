@@ -29,33 +29,33 @@ public class PermissionService {
 
     @AllowPermissionEdit
     public Flux<PermissionDTO> getPermissionsByUserIdAndDepartmentId(UUID userId, Optional<UUID> opDepartmentId) {
-        return opDepartmentId.map(departmentId -> permissionRepository.findByUserIdAndDepartmentId(userId, departmentId))
-                .orElseGet(() -> permissionRepository.findByUserId(userId))
+        return opDepartmentId.map(departmentId -> permissionRepository.findByUserIdAndDepartmentIdAndStatus(userId, departmentId, ACTIVE))
+                .orElseGet(() -> permissionRepository.findByUserIdAndStatus(userId, ACTIVE))
                 .flatMap(this::mapToDTO);
     }
 
     @AllowPermissionEdit
     public Mono<PermissionDTO> getUsersPermissionByPermissionId(UUID userId, UUID permissionId) {
-        return permissionRepository.findByUserIdAndId(userId, permissionId)
+        return permissionRepository.findByUserIdAndIdAndStatus(userId, permissionId, ACTIVE)
                 .flatMap(this::mapToDTO)
                 .switchIfEmpty(defer(() -> error(new NotFoundException("Permission not found"))));
     }
 
     @Transactional
     @AllowPermissionEdit
-    public void revokeUsersPermission(UUID permissionId) {
-        permissionRepository.findById(permissionId)
+    public Mono<PermissionDTO> revokeUsersPermission(UUID userId, UUID permissionId) {
+        return permissionRepository.findByUserIdAndIdAndStatus(userId, permissionId, ACTIVE)
                 .flatMap(this::revokePermission)
                 .flatMap(permissionRepository::save)
                 .switchIfEmpty(defer(() -> error(new NotFoundException("Permission not found"))))
-                .subscribe();
+                .flatMap(this::mapToDTO);
     }
 
     @Transactional
     @AllowPermissionEdit
     public Mono<PermissionDTO> createUsersPermission(UUID userId, PermissionCreateDTO permission) {
-        return permissionRepository.findActiveByUserIdAndDepartmentIdAndCode
-                (userId, permission.getDepartmentId(), permission.getPermissionCode())
+        return permissionRepository.findByUserIdAndDepartmentIdAndPermissionCodeAndStatus
+                (userId, permission.getDepartmentId(), permission.getPermissionCode(), ACTIVE)
                 .flatMap(existingPermission -> error(new BusinessException("Permission already exists")))
                 .switchIfEmpty(defer(() -> permissionRepository.save(createNewPermission(permission, userId))))
                 .cast(Permission.class)
