@@ -29,7 +29,8 @@ public class PermissionService {
 
     @AllowPermissionEdit
     public Flux<PermissionDTO> getPermissionsByUserIdAndDepartmentId(UUID userId, Optional<UUID> opDepartmentId) {
-        return opDepartmentId.map(departmentId -> permissionRepository.findByUserIdAndDepartmentIdAndStatus(userId, departmentId, ACTIVE))
+        return opDepartmentId.map(departmentId -> permissionRepository.findByUserIdAndDepartmentIdAndStatus(userId,
+                departmentId, ACTIVE))
                 .orElseGet(() -> permissionRepository.findByUserIdAndStatus(userId, ACTIVE))
                 .flatMap(this::mapToDTO);
     }
@@ -54,6 +55,7 @@ public class PermissionService {
     @Transactional
     @AllowPermissionEdit
     public Mono<PermissionDTO> createUsersPermission(UUID userId, PermissionCreateDTO permission) {
+        //TODO: needs another validation for departmentID and userID existence
         return permissionRepository.findByUserIdAndDepartmentIdAndPermissionCodeAndStatus
                 (userId, permission.getDepartmentId(), permission.getPermissionCode(), ACTIVE)
                 .flatMap(existingPermission -> error(new BusinessException("Permission already exists")))
