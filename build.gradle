@@ -13,7 +13,7 @@ repositories {
 }
 
 ext {
-	jmockitVersion = '1.46'
+	jmockitVersion = '1.49'
 	junitVersion = '5.4.1'
 }
 
