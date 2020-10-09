@@ -7,7 +7,8 @@ JAVA 11+
 *Approach*
 
 Very simple JAVA RESTful application trying to follow reactive approach. For personal interest 
-for method authorization in async application also basic auth added. As mentioned in task desciption
+for method authorization in async application also basic auth added (user - admin has correct roles for permission 
+modification, user - user hs not). As mentioned in task desciption
 in email - permission inheritance is ignored.
 
 **Flow example**
@@ -69,12 +70,9 @@ In project root
 
 *./gradlew clean build*
 
-navigate to flight-web/build/libs
+navigate to reactive-demo/build/libs
 
-java -jar flight-web.jar
+java -jar reactive-demo.jar
 
 application should be running in localhost:8080
-
-NB! deployment takes about 30 sec as the graph is built in memory
-
 

@@ -6,11 +6,15 @@ plugins {
 
 group = 'com.breakwater'
 sourceCompatibility = '11'
-jar.archiveFileName = "new-name.jar"
+
+bootJar {
+	archiveFileName = 'reactive-demo.jar'
+}
 
 repositories {
 	mavenCentral()
 }
+
 
 ext {
 	jmockitVersion = '1.49'
