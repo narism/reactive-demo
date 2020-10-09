@@ -14,6 +14,7 @@ in email - permission inheritance is ignored.
 **Flow example**
 
 GET all users permissions
+
 curl --user admin:password -X GET http://localhost:8080/users/b05beb44-b7f9-4ec8-ba41-5d0f5844a4ad/permissions
 ```javascript
 [
@@ -27,6 +28,7 @@ curl --user admin:password -X GET http://localhost:8080/users/b05beb44-b7f9-4ec8
 ```
 
 GET all users permissions for specific department
+
 curl --user admin:password -X GET http://localhost:8080/users/b05beb44-b7f9-4ec8-ba41-5d0f5844a4ad/permissions?departmentId=57633250-8e65-4b2a-b814-5838a1b8d3ff
 ```javascript
 [
@@ -39,6 +41,7 @@ curl --user admin:password -X GET http://localhost:8080/users/b05beb44-b7f9-4ec8
 ]
 ```
 GET information about specific permission
+
 curl --user admin:password -X GET http://localhost:8080/users/b05beb44-b7f9-4ec8-ba41-5d0f5844a4ad/permissions/fe258c95-d402-4ad4-9568-e3e463940818
 ```javascript
 {
@@ -49,9 +52,11 @@ curl --user admin:password -X GET http://localhost:8080/users/b05beb44-b7f9-4ec8
 }
 ```
 Revoke specific permission
+
 curl --user admin:password -X DELETE http://localhost:8080/users/b05beb44-b7f9-4ec8-ba41-5d0f5844a4ad/permissions/fe258c95-d402-4ad4-9568-e3e463940818
 
 create a new permission for user
+
 curl --user admin:password -d '{"permissionCode":"VIEW", "departmentId":"5a0bbdbe-c872-4467-9070-b5284d7b658f"}' -H "Content-Type: application/json" -X POST http://localhost:8080/users/b05beb44-b7f9-4ec8-ba41-5d0f5844a4ad/permissions 
 ```javascript
 {
